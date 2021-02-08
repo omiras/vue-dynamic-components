@@ -1,15 +1,34 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <transition name="fade" mode="out-in">
+
+<component :is="selectedComponent"></component>
+  </transition>
+
+  <navigation-menu @selected-item="changeComponent"></navigation-menu>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import NavigationMenu from './components/NavigationMenu.vue'
+import MessagesComponent from './components/MessagesComponent.vue'
+import FavoriteAnimals from './components/FavoriteAnimals.vue'
 
 export default {
   name: 'App',
+  data(){
+    return {
+      selectedComponent: 'messages-component'
+    }
+  },
   components: {
-    HelloWorld
+    NavigationMenu,
+    MessagesComponent,
+    FavoriteAnimals
+  },
+  methods: {
+    changeComponent(id) {
+      console.log(id)
+      this.selectedComponent = id == 'messages'? 'messages-component': 'favorite-animals'
+    }
   }
 }
 </script>
@@ -22,5 +41,12 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .25s;
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
 }
 </style>
